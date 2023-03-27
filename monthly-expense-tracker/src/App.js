@@ -1,8 +1,7 @@
 import Expenses from './components/Expenses/Expenses'
-import React from 'react'
+import React, { useState } from 'react'
 import NewExpense from './components/NewExpense/NewExpense'
-const App = () => {
-  const expenses = [
+ const DUMMY_EXPENSES = [
     {
       id: 'e1',
       title: 'Toilet Paper',
@@ -28,9 +27,18 @@ const App = () => {
       date: new Date(2021, 5, 12),
     },
   ]
+const App = () => {
+  const [expenses,setExpenses]=useState(DUMMY_EXPENSES);
+  const addExpenseHandler =(expense) =>{
+    console.log(expense);
+    console.log("hi from APp.js");
+    setExpenses((prevExpenses)=>{
+      // console.log(prevExpenses);
+    return  [...prevExpenses,expense]});
+  }
   return (
     <div>
-      <NewExpense />
+      <NewExpense onAddExpense={addExpenseHandler}/>
       <Expenses data={expenses}></Expenses>
     </div>
     // JSX Coden
