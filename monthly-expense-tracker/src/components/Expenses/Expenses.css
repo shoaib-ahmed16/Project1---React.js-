@@ -5,3 +5,9 @@
   width: 50rem;
   max-width: 95%;
 }
+
+.No_expenses {
+
+  background-color: azure;
+  color: red;
+}

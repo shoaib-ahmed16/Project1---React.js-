@@ -1,30 +1,33 @@
-import ExpenseItem from './ExpenseItem'
+
 import React,{useState} from 'react'
 import './Expenses.css'
 import Card from '../UI/Card'
 import ExpensesFilter from '../NewExpense/ExpressFilter'
+import ExpensesList from './ExpensesList'
 const Expenses = (props) => {
   const [filteredYear,setFilteredYear]=useState('2019')
   const filterChangeHandler =(selectedyear) =>{
-    // console.log('Express.js');
     setFilteredYear(selectedyear);
   }
-
   const filterExpenses = props.data.filter((expense)=>{
-    // console.log("hello: ",expense.date.getFullYear().toString());
-    return expense.date.getFullYear().toString() ===filteredYear;
+    return expense.date.getFullYear().toString() === filteredYear;
   })
+  // let expenseContent =(<p className='No_expenses'>NO expenses Found.</p>)
+
+  // if(filterExpenses.length > 0 ){
+  //  expenseContent = filterExpenses.map((expense) =>(<ExpenseItem
+  //     key={expense.id}
+  //     title={expense.title} 
+  //     amount={expense.amount}
+  //      date={expense.date}
+  //      />
+  //      ))}
   return (
     <div>
       <Card className='expenses'>
       <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
-      {filterExpenses.map((expense) =>(<ExpenseItem
-      key={expense.id}
-      title={expense.title} 
-      amount={expense.amount}
-       date={expense.date}
-       />
-       ))}
+      {/* {expenseContent} */}
+      <ExpensesList data ={filterExpenses}/>
       {/* <ExpenseItem
         title={props.data[0].title}
         amount={props.data[0].amount}
@@ -44,7 +47,7 @@ const Expenses = (props) => {
         title={props.data[3].title}
         amount={props.data[3].amount}
         date={props.data[3].date}
-  ></ExpenseItem> */ }
+  ></ExpenseItem>  */}
     </Card>
     </div>
     
