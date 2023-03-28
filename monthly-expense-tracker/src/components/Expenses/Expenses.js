@@ -8,15 +8,23 @@ const Expenses = (props) => {
   const filterChangeHandler =(selectedyear) =>{
     // console.log('Express.js');
     setFilteredYear(selectedyear);
-    // console.log(selectedyear);
   }
+
+  const filterExpenses = props.data.filter((expense)=>{
+    // console.log("hello: ",expense.date.getFullYear().toString());
+    return expense.date.getFullYear().toString() ===filteredYear;
+  })
   return (
     <div>
       <Card className='expenses'>
       <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
-      {props.data.map(expense =><ExpenseItem
+      {filterExpenses.map((expense) =>(<ExpenseItem
       key={expense.id}
-      title={expense.title} amount={expense.amount} date={expense.date}/>)}
+      title={expense.title} 
+      amount={expense.amount}
+       date={expense.date}
+       />
+       ))}
       {/* <ExpenseItem
         title={props.data[0].title}
         amount={props.data[0].amount}
