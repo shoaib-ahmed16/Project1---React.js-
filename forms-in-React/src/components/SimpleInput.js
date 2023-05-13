@@ -1,46 +1,87 @@
-import React,{useState,useEffect} from "react";
+import React from "react";
+import useInput from "../hooks/use-input";
+
+const isNotEmpty =value =>value.trim()!=="";
+const isEmail =value =>value.includes('@');
+
 const SimpleInput = (props) => {
 
-  const [enteredName,setEnterName] =useState("");
-  const [enteredNameTouched,setEnterNameTouched] =useState(false);
+  const {
+    value:enteredFirstName,
+    isValid:enteredFirstNameIsValid,
+    hasError:firstNameInputHasError,
+    valueChangeHandler:firstNameChangehandler,
+    inputBlurHandler:firstNameBlurHandler,
+    reset:resetFirstNameInput
+  }=useInput(isNotEmpty);
 
-  const enteredNameIsValid = enteredName.trim() !=='';
-  const nameInputIsValid =!enteredNameIsValid && enteredNameTouched;
-  
-  const formIsValid =false;
-  if(enteredNameIsValid){
+    const {
+    value:enteredLastName,
+    isValid:enteredLastNameIsValid,
+    hasError:lastNameInputHasError,
+    valueChangeHandler:lastNameChangehandler,
+    inputBlurHandler:lastNameBlurHandler,
+    reset:resetLastNameInput
+  }=useInput(isNotEmpty);
+  const {
+    value:enteredEmail,
+    isValid:enteredEmailIsValid,
+    hasError:emailInputHasError,
+    valueChangeHandler:emailChangehandler,
+    inputBlurHandler:emailBlurHandler,
+    reset:resetEmailInput
+  }=useInput(isEmail);
+
+  let formIsValid =false;
+
+  if(enteredFirstNameIsValid && enteredEmailIsValid && enteredLastNameIsValid){
     formIsValid=true;
-  }
-     
-  
-  const nameInputChangehandler =(event)=>{
-  setEnterName(event.target.value);
-  }
-
- const nameInputBlurHandler =event =>{
-    setEnterNameTouched(true);
   }
   const formSubmissionHandler =event =>{
     event.preventDefault();
 
-    setEnterNameTouched(true);
-
-    if(!enteredNameIsValid){
+    if(!enteredFirstNameIsValid || !enteredEmailIsValid ||!enteredLastNameIsValid){
       return
     }
-
-   // nameInputRef.current.value ="" this directly manupulating the dom this is not according to the concept of React which work on virtul dom manupulation.
-    setEnterName('')
-    setEnterNameTouched(false);
+    resetFirstNameInput();
+    resetLastNameInput();
+    resetEmailInput();
   }
 
-  const nameInputClass =nameInputIsValid ? 'form-control invalid':'form-control';
+  const firstNameInputClass =firstNameInputHasError ? 'form-control invalid':'form-control';
+  const emailInputClass =emailInputHasError ? 'form-control invalid':'form-control';
+  const lastNameInputClass =lastNameInputHasError? 'form-control invalid':'form-control';
   return (
     <form>
-      <div className={nameInputClass}>
-        <label htmlFor='name'>Your Name</label>
-        <input type='text' id='name' onChange={nameInputChangehandler} value={enteredName} onBlur={nameInputBlurHandler} />
-        {nameInputIsValid && <p className="error-text">Name Must Not Be Empty.</p>}
+      <div className={firstNameInputClass}>
+        <label htmlFor='name'>First Name</label>
+        <input 
+        type='text' 
+        id='name'
+        value={enteredFirstName}
+        onChange={firstNameChangehandler}
+        onBlur={firstNameBlurHandler} />
+        {firstNameInputHasError && <p className="error-text">Please Enter First Name.</p>}
+      </div>
+       <div className={lastNameInputClass}>
+        <label htmlFor='name'>Last Name</label>
+        <input 
+        type='text' 
+        id='name'
+        value={enteredLastName}
+        onChange={lastNameChangehandler}
+        onBlur={lastNameBlurHandler} />
+        {lastNameInputHasError && <p className="error-text">Please Enter Last Name.</p>}
+      </div>
+      <div className={emailInputClass}>
+        <label htmlFor='name'>Your Email</label>
+        <input 
+        type='text' 
+        id='email' 
+        onChange={emailChangehandler} 
+        value={enteredEmail}
+        onBlur={emailBlurHandler} />
+        {emailInputHasError && <p className="error-text">Please Enter the Valid Email.</p>}
       </div>
       <div className="form-actions">
         <button disabled={!formIsValid} onClick={formSubmissionHandler}>Submit</button>
