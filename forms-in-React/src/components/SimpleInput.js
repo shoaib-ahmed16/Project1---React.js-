@@ -1,9 +1,8 @@
 import React from "react";
 import useInput from "../hooks/use-input";
 
-const isNotEmpty =value =>value.trim()!='';
-const isEmail =value =>value.includes('@');
-
+const isNotEmpty =(elem)=>elem.trim()!='';
+const isEmail =(elem) =>elem.includes('@');
 const SimpleInput = (props) => {
 
   const {
@@ -15,7 +14,7 @@ const SimpleInput = (props) => {
     reset:resetFirstNameInput
   }=useInput(isNotEmpty);
 
-    const {
+  const {
     value:enteredLastName,
     isValid:enteredLastNameIsValid,
     hasError:lastNameInputHasError,
@@ -51,6 +50,7 @@ const SimpleInput = (props) => {
   const firstNameInputClass =firstNameInputHasError ? 'form-control invalid':'form-control';
   const emailInputClass =emailInputHasError ? 'form-control invalid':'form-control';
   const lastNameInputClass =lastNameInputHasError? 'form-control invalid':'form-control';
+
   return (
     <form>
       <div className={firstNameInputClass}>
